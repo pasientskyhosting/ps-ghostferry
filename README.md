@@ -1,5 +1,5 @@
 # ps-ghostferry
-Ghostferry is a library that enables you to selectively copy data from one mysql instance to another with minimal amount of downtime.
+[Ghostferry](https://github.com/Shopify/ghostferry) is a library that enables you to selectively copy data from one mysql instance to another with minimal amount of downtime.
 
 It is inspired by Github's [gh-ost](https://github.com/github/gh-ost),
 although instead of copying data from and to the same database, Ghostferry
@@ -23,6 +23,8 @@ On a high-level, Ghostferry is broken into several components, enabling it to
 copy data. This is documented at
 https://shopify.github.io/ghostferry/master/technicaloverview.html
 
+For a detailed tutorial, see the [documentation](https://shopify.github.io/ghostferry).
+
 Development Setup
 -----------------
 
@@ -32,23 +34,14 @@ Install:
 - Clone the repo
 - `docker-compose up -d mysql-1 mysql-2`
 
-Run tests:
 
-- `make test`
-
-Test copydb:
-
-- `make copydb && ghostferry-copydb -verbose examples/copydb/conf.json`
+Test copydb locally:
+- `mysql --protocol=tcp -u root -P 29291 < sql/n1create.sql` to create databases on the source server
+- `mysql --protocol=tcp -u root -P 29291 < sql/n1users.sql` to create ghostferry user on source server
+- `mysql --protocol=tcp -u root -P 29292 < sql/n2users.sql` to create ghostferry user on destination server
+- `docker run --name ghostferry -p 8000:8000 -v $(pwd)/log:/log -v $(pwd)/config:/config ps-ghostferry -verbose -dryrun config/examplerun.json >log/state-dump.json 2>log/ghostferry.log` to perform a dry run
+- `docker run --name ghostferry -p 8000:8000 -d -v $(pwd)/log:/log -v $(pwd)/config:/config ps-ghostferry -verbose config/examplerun.json >log/state-dump.json 2>log/ghostferry.log` to start th run
+- You can access the web UI on port 8000
+- Log and state dump can be found in the `log` directory
 - For a more detailed tutorial, see the
   [documentation](https://shopify.github.io/ghostferry).
-
-Ruby Integration Tests
-----
-
-Kindly take note of following options:
-*   `DEBUG=1`: To see more detailed debug output by `Ghostferry`
-*   `TESTOPTS=...`: As detailed under https://docs.ruby-lang.org/en/2.1.0/Rake/TestTask.html
-
-Example:
-`bundle exec rake test DEBUG=1 TESTOPTS="-v --name=TrivialIntegrationTests#test_logged_query_omits_columns"`
-
