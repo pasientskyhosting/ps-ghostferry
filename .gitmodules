@@ -1,0 +1,3 @@
+[submodule "ghostferry"]
+	path = ghostferry
+	url = https://github.com/Shopify/ghostferry.git
