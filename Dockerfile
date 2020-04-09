@@ -14,4 +14,6 @@ COPY --from=builder /go/bin/ghostferry-copydb /bin/ghostferry-copydb
 
 COPY --from=builder /ghostferry/webui /webui
 
-ENTRYPOINT ["/bin/ghostferry-copydb"]
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

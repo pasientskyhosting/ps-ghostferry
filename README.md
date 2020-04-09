@@ -39,8 +39,8 @@ Test copydb locally:
 - `mysql --protocol=tcp -u root -P 29291 < sql/n1create.sql` to create databases on the source server
 - `mysql --protocol=tcp -u root -P 29291 < sql/n1users.sql` to create ghostferry user on source server
 - `mysql --protocol=tcp -u root -P 29292 < sql/n2users.sql` to create ghostferry user on destination server
-- `docker run --name ghostferry -p 8000:8000 -v $(pwd)/log:/log -v $(pwd)/config:/config pasientskyhosting/ps-ghostferry -verbose -dryrun config/examplerun.json >log/state-dump.json 2>log/ghostferry.log` to perform a dry run
-- `docker run --name ghostferry -p 8000:8000 -d -v $(pwd)/log:/log -v $(pwd)/config:/config pasientskyhosting/ps-ghostferry -verbose config/examplerun.json >log/state-dump.json 2>log/ghostferry.log` to start the run
+- `docker run --name ghostferry -p 8000:8000 -v $(pwd)/log:/log -v $(pwd)/config:/config pasientskyhosting/ps-ghostferry ghostferry-copydb -verbose -dryrun config/examplerun.json` to perform a dry run
+- `docker run --name ghostferry -p 8000:8000 -d -v $(pwd)/log:/log -v $(pwd)/config:/config pasientskyhosting/ps-ghostferry ghostferry-copydb -verbose config/examplerun.json` to start the run
 - You can access the web UI on port 8000
 - Log and state dump can be found in the `log` directory
 - For a more detailed tutorial, see the
