@@ -8,7 +8,7 @@ WORKDIR /ghostferry
 RUN make copydb
 
 # Ghostferry
-FROM debian:buster-slim
+FROM debian:bookworm-slim
 
 COPY --from=builder /go/bin/ghostferry-copydb /bin/ghostferry-copydb
 
